@@ -10,6 +10,8 @@ import ftn.uns.diplomski.movierecommendationservice.model.Movie;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 	
+	List<Movie> findMoviesByWatchlistsWatchlistId(Long watchlistId);
+	
     List<Movie> findMoviesByCustomListsCustomListId(Long customlistId);
 
 }

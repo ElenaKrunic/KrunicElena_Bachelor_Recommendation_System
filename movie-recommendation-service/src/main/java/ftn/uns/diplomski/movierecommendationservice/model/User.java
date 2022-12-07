@@ -6,8 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity()
@@ -42,6 +45,17 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserMovieRating> userMovieRates;
     
+    @JsonIgnore
+	@OneToOne(mappedBy = "user")
+	private Watchlist watchlist; 
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
+	private List<Movie> movies; 
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
+	private List<CustomList> customLists;
 
     public User() {
     }

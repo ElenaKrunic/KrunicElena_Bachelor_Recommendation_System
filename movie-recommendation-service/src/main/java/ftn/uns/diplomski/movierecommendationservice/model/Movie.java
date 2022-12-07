@@ -47,7 +47,21 @@ public class Movie {
 	@JsonIgnore
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private Set<CustomList> customLists = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {
+					CascadeType.PERSIST,
+					CascadeType.MERGE
+			},
+			mappedBy = "movies")
+	@JsonIgnore
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Set<Watchlist> watchlists = new HashSet<>();
     
+	@JsonIgnore
+	@ManyToOne
+	private User user;
+	
     public Movie(long movieId, String title, String genre) {
     	this.movieId = movieId; 
     	this.title = title; 
