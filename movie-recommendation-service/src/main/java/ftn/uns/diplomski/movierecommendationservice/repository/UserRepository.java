@@ -5,10 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import ftn.uns.diplomski.movierecommendationservice.model.User;
 
-/* The interface User repository.
- *
- * @author Sefa Oduncuoglu
- */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+	
+    User findByEmail(String username); 
+	
 }

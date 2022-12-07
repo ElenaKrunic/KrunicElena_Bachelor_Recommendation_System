@@ -2,11 +2,12 @@ package ftn.uns.diplomski.movierecommendationservice.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,6 +16,8 @@ import java.util.Set;
 
 @Entity()
 @Table(name = "users")
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
@@ -56,6 +59,18 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.REMOVE})
 	private List<CustomList> customLists;
+	
+	 @ManyToMany(fetch = FetchType.EAGER)
+	 @JoinTable(
+	            name="role_has_user"
+	            , joinColumns={
+	            @JoinColumn(name="user_id")
+	    }
+	            , inverseJoinColumns={
+	            @JoinColumn(name="role_id")
+	    }
+	    )
+	 private List<Role> roles;
 
     public User() {
     }
