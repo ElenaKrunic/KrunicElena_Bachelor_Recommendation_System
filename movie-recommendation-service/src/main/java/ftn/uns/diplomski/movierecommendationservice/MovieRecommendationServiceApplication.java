@@ -1,9 +1,7 @@
 package ftn.uns.diplomski.movierecommendationservice;
 
 import ftn.uns.diplomski.movierecommendationservice.controller.datasetcontroller.DatasetController;
-import ftn.uns.diplomski.movierecommendationservice.model.Book;
 import ftn.uns.diplomski.movierecommendationservice.model.Movie;
-import ftn.uns.diplomski.movierecommendationservice.repository.BookRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 
 import org.slf4j.Logger;
@@ -21,9 +19,6 @@ public class MovieRecommendationServiceApplication implements CommandLineRunner 
 
     private static final Logger logger = LoggerFactory.getLogger(MovieRecommendationServiceApplication.class);
    
-    @Autowired
-    private BookRepository bookRepository;
-    
     @Autowired 
     private MovieRepository movieRepository; 
 
@@ -33,10 +28,9 @@ public class MovieRecommendationServiceApplication implements CommandLineRunner 
 
     @Override
     public void run(String... args) {
-        logger.info("BookRecommendationServiceApplication....");
-
+      
         DatasetController datasetController = new DatasetController();
-        //List<Book> bookList = new ArrayList<>();
+      
         List<Movie> movieList = new ArrayList<>();
         
         datasetController.getMovies().getMovies().forEach((key, movie) -> {
@@ -45,15 +39,8 @@ public class MovieRecommendationServiceApplication implements CommandLineRunner 
         	}
         });
 
-        /*
-        datasetController.getBooks().getBooks().forEach((key, book) -> {
-            if (!bookRepository.existsById(key)) {
-                bookList.add(book);
-            }
-        });
-
-*/
+      
         movieRepository.saveAll(movieList);
-        //bookRepository.saveAll(bookList);
+      
     }
 }

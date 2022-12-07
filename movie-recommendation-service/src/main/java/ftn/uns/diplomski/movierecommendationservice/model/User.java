@@ -38,11 +38,7 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
-
-    // Don't create getter and setter methods for this object
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<UserBookRating> userBookRates;
-    
+   
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<UserMovieRating> userMovieRates;
     
@@ -50,13 +46,13 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, Date createdAt, Date updatedAt, Set<UserBookRating> userBookRates) {
+    public User(String firstName, String lastName, String email, Date createdAt, Date updatedAt, Set<UserMovieRating> userMovieRates) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.userBookRates = userBookRates;
+        this.userMovieRates = userMovieRates;
     }
 
     /**
@@ -166,15 +162,7 @@ public class User {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    public Set<UserBookRating> getUserBookRating() {
-        return userBookRates;
-    }
-
-    public void setUserBookRating(Set<UserBookRating> userBookRates) {
-        this.userBookRates = userBookRates;
-    }
-    
+   
     public Set<UserMovieRating> getUserMovieRating() {
     	return userMovieRates;
     }
@@ -183,35 +171,4 @@ public class User {
     	this.userMovieRates = userMovieRates;
     }
 
-    @Override
-    public String toString() {
-
-        JSONObject response = new JSONObject();
-
-        response.put("userId", String.valueOf(getUserId()));
-        response.put("firstName", getFirstName());
-        response.put("lastName", getLastName());
-        response.put("email", getEmail());
-        response.put("createdAt", getCreatedAt());
-        response.put("updatedAt", getUpdatedAt());
-
-        if (userBookRates != null) {
-            JSONArray userRatedBooksArray = new JSONArray();
-
-            for (UserBookRating userBookRating : userBookRates) {
-                userRatedBooksArray.put(
-                        new JSONObject(
-                                "{" +
-                                        "\"ASIN\":\"" + userBookRating.getBook().getASIN() + "\"," +
-                                        "\"rate\":\"" + userBookRating.getRate() + "\"" +
-                                        "}"
-                        )
-                );
-            }
-            if (!userRatedBooksArray.isEmpty()) {
-                response.put("ratedBooks", userRatedBooksArray);
-            }
-        }
-        return response.toString();
-    }
 }
