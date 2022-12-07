@@ -23,7 +23,7 @@ import ftn.uns.diplomski.movierecommendationservice.service.MovieRecommender;
 import ftn.uns.diplomski.movierecommendationservice.service.implementation.MovieService;
 
 @RestController
-@RequestMapping("/api/v1/movies")
+@RequestMapping("/api/movies")
 public class MovieController {
 
 	private final MovieRepository movieRepository;

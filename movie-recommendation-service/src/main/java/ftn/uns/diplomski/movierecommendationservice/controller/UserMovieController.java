@@ -26,7 +26,7 @@ import ftn.uns.diplomski.movierecommendationservice.repository.UserMovieRatingRe
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;
 
 @RestController
-@RequestMapping("/api/v1/movieRates")
+@RequestMapping("/api/movieRates")
 public class UserMovieController {
 
 	@Autowired

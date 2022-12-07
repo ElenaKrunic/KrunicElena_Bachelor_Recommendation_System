@@ -1,18 +1,15 @@
 package ftn.uns.diplomski.movierecommendationservice.model;
 
+import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +37,16 @@ public class Movie {
 	
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserMovieRating> userMovieRatings; 
+    
+	@ManyToMany(fetch = FetchType.LAZY,
+			cascade = {
+				CascadeType.PERSIST,
+				CascadeType.MERGE
+			},
+			mappedBy = "movies")
+	@JsonIgnore
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Set<CustomList> customLists = new HashSet<>();
     
     public Movie(long movieId, String title, String genre) {
     	this.movieId = movieId; 
