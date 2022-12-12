@@ -37,14 +37,14 @@ public class WatchlistController {
 	
 	@GetMapping("/{watchlistId}")
 	public ResponseEntity<Watchlist> getWatchlistById(@PathVariable("watchlistId") Long watchlistId) {
-		Watchlist _watchlist = watchlistRepository.findById(watchlistId).orElseThrow();
+		Watchlist _watchlist = watchlistRepository.findById(watchlistId).orElseThrow(null);
 		return new ResponseEntity<>(_watchlist, HttpStatus.OK);
 	}
 	
 	@PostMapping(consumes="application/json", value="/createWatchlist/{userId}")
 	public ResponseEntity<WatchlistDTO> saveWatchlist(@RequestBody WatchlistDTO dto, @PathVariable("userId") Long userId) {
 		Watchlist watchlist = new Watchlist();
-		User user = userRepository.findById(userId).orElseThrow();
+		User user = userRepository.findById(userId).orElseThrow(null);
 				
 		watchlist.setComment(dto.getComment());
 		watchlist.setMakeItPublic(dto.isMakeItPublic());
@@ -58,7 +58,7 @@ public class WatchlistController {
 	@PutMapping("/updateWatchlist/{watchlistId}")
 	public ResponseEntity<Watchlist> updateWatchlist(@PathVariable("watchlistId") Long watchlistId, @RequestBody Watchlist watchlist) {
 		Watchlist _watchlist = watchlistRepository.findById(watchlistId)
-				.orElseThrow();
+				.orElseThrow(null);
 		_watchlist.setComment(watchlist.getComment());
 		_watchlist.setMakeItPublic(watchlist.isMakeItPublic());
 		
@@ -94,11 +94,11 @@ public class WatchlistController {
 	
 	@PostMapping("/addMovieInWatchlist/{watchlistId}/{movieId}")
 	public ResponseEntity<HttpStatus> addMovieInWatchlist(@PathVariable(value = "watchlistId") Long watchlistId, @PathVariable(value = "movieId") Long movieId) {
-		Watchlist watchlist = watchlistRepository.findById(watchlistId).orElseThrow();
+		Watchlist watchlist = watchlistRepository.findById(watchlistId).orElseThrow(null);
 
 		if(movieId != 0L) {
 			Movie _movie = movieRepository.findById(movieId)
-					.orElseThrow();
+					.orElseThrow(null);
 			watchlist.addMovie(_movie);
 			watchlistRepository.save(watchlist);
 		}
@@ -110,7 +110,7 @@ public class WatchlistController {
 	public ResponseEntity<HttpStatus> deleteMovieFromWatchlist(@PathVariable(value="watchlistId") Long watchlistId, @PathVariable(value="movieId") Long movieId) {
 
 		Watchlist watchlist = watchlistRepository.findById(watchlistId)
-				.orElseThrow();
+				.orElseThrow(null);
 		watchlist.removeMovie(movieId);
 		watchlistRepository.save(watchlist);
 		return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);

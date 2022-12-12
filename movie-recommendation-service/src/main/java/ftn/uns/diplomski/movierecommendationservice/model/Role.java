@@ -11,34 +11,37 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
-
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name="role")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Role implements GrantedAuthority {
+//uklonjen implements GrantedAuthority
+public class Role {
 
 	 @Id
-	 @GeneratedValue(strategy=GenerationType.IDENTITY)
+	 //@GeneratedValue(strategy=GenerationType.IDENTITY)
 	 @Column(name = "id", nullable = false, unique = true)
 	 private Long id;
 
-	 @Column(name = "_name", nullable = false)
-	 private String name;
+	 //@Column(name = "_name", nullable = false)
+	 //private String name;
 
+	 @Column(name = "_name", nullable = false)
+	 private ERole name; 
+	 
 	 @ManyToMany(mappedBy="roles", fetch = FetchType.EAGER)
 	 private List<User> users;
 	
+	 /*
 	 public String getAuthority() {
 		return name; 
 	 }
+	 */
 }

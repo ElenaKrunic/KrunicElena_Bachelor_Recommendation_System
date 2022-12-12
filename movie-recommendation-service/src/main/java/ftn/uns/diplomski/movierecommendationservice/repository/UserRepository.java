@@ -8,6 +8,12 @@ import ftn.uns.diplomski.movierecommendationservice.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-    User findByEmail(String username); 
+    User findByEmail(String username);
+
+	User findByUsername(String username);
+
+	boolean existsByUsername(String username);
+
+	boolean existsByEmail(String email); 
 	
 }
