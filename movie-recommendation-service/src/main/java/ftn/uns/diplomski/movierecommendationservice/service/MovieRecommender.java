@@ -169,7 +169,7 @@ public class MovieRecommender {
 	            Long userID = userItem.getUserId();
 	            Map<Long, Integer> userRatings = new HashMap<>();
 	            
-	            userItem.getUserMovieRating().forEach(userMovieRating -> {
+	            userItem.getUserMovieRates().forEach(userMovieRating -> {
 	                        if (userMovieRating.getId().getUserId().compareTo(userID) == 0) {
 	                            userRatings.put(userMovieRating.getId().getMovieId(), userMovieRating.getRate());
 	                        }

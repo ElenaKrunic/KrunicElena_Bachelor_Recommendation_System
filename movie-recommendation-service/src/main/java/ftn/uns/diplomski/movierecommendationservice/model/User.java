@@ -26,23 +26,29 @@ public class User {
     @Column(name = "user_id", unique = true, nullable = false)
     private long userId;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email_address", unique = true, nullable = false)
+    @Column(name = "email_address")
     private String email;
+    
+    @Column(name = "username")
+    private String username; 
+    
+    @Column(name="password", unique = true)
+    private String password; 
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private Date updatedAt;
    
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -74,7 +80,16 @@ public class User {
 
     public User() {
     }
-
+    
+    public User(String username, String email, String password, String firstName, String lastName) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+      }
+      
+    
     public User(String firstName, String lastName, String email, Date createdAt, Date updatedAt, Set<UserMovieRating> userMovieRates) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -83,121 +98,4 @@ public class User {
         this.updatedAt = updatedAt;
         this.userMovieRates = userMovieRates;
     }
-
-    /**
-     * Gets user id.
-     *
-     * @return the userId
-     */
-    public long getUserId() {
-        return userId;
-    }
-
-    /**
-     * Sets user id.
-     *
-     * @param userId the id
-     */
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * Gets first name.
-     *
-     * @return the first name
-     */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * Sets first name.
-     *
-     * @param firstName the first name
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    /**
-     * Gets last name.
-     *
-     * @return the last name
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * Sets last name.
-     *
-     * @param lastName the last name
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    /**
-     * Gets email.
-     *
-     * @return the email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * Sets email.
-     *
-     * @param email the email
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * Gets created at.
-     *
-     * @return the created at
-     */
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    /**
-     * Sets created at.
-     *
-     * @param createdAt the created at
-     */
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /**
-     * Gets updated at.
-     *
-     * @return the updated at
-     */
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    /**
-     * Sets updated at.
-     *
-     * @param updatedAt the updated at
-     */
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-   
-    public Set<UserMovieRating> getUserMovieRating() {
-    	return userMovieRates;
-    }
-    
-    public void setUserMovieRating(Set<UserMovieRating> userMovieRates) {
-    	this.userMovieRates = userMovieRates;
-    }
-
 }

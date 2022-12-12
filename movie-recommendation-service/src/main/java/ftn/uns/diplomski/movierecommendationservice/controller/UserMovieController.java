@@ -57,7 +57,7 @@ public class UserMovieController {
 			long movieId = Long.parseLong(map.get("movieId").toString());
 			int rate = Integer.parseInt(map.get("rate").toString());
 			
-			Movie movie = movieRepository.findById(movieId).orElseThrow();
+			Movie movie = movieRepository.findById(movieId).orElseThrow(null);
 			
 			UserMovieRating userMovieRating = new UserMovieRating(user, movie);
 			UserMovieRatingKey userMovieRatingKey = new UserMovieRatingKey(userId, movieId);

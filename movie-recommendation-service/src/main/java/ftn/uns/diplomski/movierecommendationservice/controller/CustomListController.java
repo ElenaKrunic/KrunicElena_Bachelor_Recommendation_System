@@ -45,7 +45,7 @@ public class CustomListController {
 	 @PostMapping(consumes = "application/json", value = "/createCustomList/{userId}")
 	 public ResponseEntity<CustomListDTO> saveCustomList(@RequestBody CustomListDTO dto, @PathVariable("userId") Long userId) {
 		 CustomList customList = new CustomList();
-		 User user = userRepository.findById(userId).orElseThrow();
+		 User user = userRepository.findById(userId).orElse(null);
 	    	
 	    customList.setDescription(dto.getDescription());
 	    customList.setMakeItPublic(dto.isMakeItPublic());
