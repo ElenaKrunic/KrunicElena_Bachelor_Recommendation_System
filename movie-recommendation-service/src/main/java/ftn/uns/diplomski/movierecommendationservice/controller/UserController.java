@@ -109,9 +109,7 @@ public class UserController {
                             signUpRequest.getFirstName(), signUpRequest.getLastName());
 
 		Set<String> strRoles = signUpRequest.getRoles();
-
-		System.out.println(">>> strRoles>>> " + signUpRequest.getRoles());
-		Set<Role> roles = new HashSet<>();
+		List<Role> roles = new ArrayList<>();
 
 		if (strRoles == null) {
 			Role userRole = roleRepository.findByName(ERole.ROLE_REGISTERED_USER)
@@ -129,16 +127,13 @@ public class UserController {
 				default:
 					Role userRole = roleRepository.findByName(ERole.ROLE_REGISTERED_USER)
 							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+					System.out.println(userRole.getName());
 					roles.add(userRole);
 				}
 			});
 		}
 
-		//user.setRoles(roles);
-		//user.setRoles();
-        System.out.println(" sta mi je null kod korisnika " + user.getEmail()
-                + " " + user.getUsername() + " " + user.getUserId() + " " + user.getFirstName()
-                + " " + user.getFirstName() + " " + user.getLastName() + " " + user.getRoles());
+		user.setRoles(roles);
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
