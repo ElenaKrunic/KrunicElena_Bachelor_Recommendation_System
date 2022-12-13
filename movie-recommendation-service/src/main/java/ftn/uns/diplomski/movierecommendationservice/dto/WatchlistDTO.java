@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,7 +18,8 @@ public class WatchlistDTO {
 
 	private Long watchlistId;
 	private boolean makeItPublic; 
-	private String comment; 
+	private String comment;
+	private Set movies;
 	
 	public WatchlistDTO(Watchlist watchlist) {
 		this.watchlistId = watchlist.getWatchlistId(); 

@@ -25,8 +25,8 @@ import ftn.uns.diplomski.movierecommendationservice.security.jwt.AuthTokenFilter
 import ftn.uns.diplomski.movierecommendationservice.security.services.UserDetailsServiceImpl;
 
 @Configuration
-//@EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -62,7 +62,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
+		http.cors().and().csrf().disable().authorizeRequests()
 				.antMatchers("/").permitAll()
 				.antMatchers(HttpMethod.POST,"/api/users/signin").permitAll()
 				.antMatchers(HttpMethod.POST,"/api/users/signup").permitAll()

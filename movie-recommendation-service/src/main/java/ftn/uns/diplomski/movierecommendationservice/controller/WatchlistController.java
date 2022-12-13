@@ -1,7 +1,11 @@
 package ftn.uns.diplomski.movierecommendationservice.controller;
 
+import java.security.Principal;
 import java.util.List;
 
+import ftn.uns.diplomski.movierecommendationservice.dto.CustomListDTO;
+import ftn.uns.diplomski.movierecommendationservice.model.CustomList;
+import ftn.uns.diplomski.movierecommendationservice.service.implementation.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +37,10 @@ public class WatchlistController {
 	private UserRepository userRepository;
 	
 	@Autowired 
-	private MovieRepository movieRepository; 
+	private MovieRepository movieRepository;
+
+	@Autowired
+	private WatchlistService watchlistService;
 	
 	@GetMapping("/{watchlistId}")
 	public ResponseEntity<Watchlist> getWatchlistById(@PathVariable("watchlistId") Long watchlistId) {
@@ -116,5 +123,34 @@ public class WatchlistController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 	}
 
-	
+	//prosiren kod
+	@GetMapping("/userWatchlist")
+	public ResponseEntity<?> userWatchlist(Principal principal) {
+		try {
+
+			List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal(principal.getName());
+			return new ResponseEntity<>(dtos, HttpStatus.OK);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@PostMapping(consumes = "application/json", value = "/createWatchlist")
+	public ResponseEntity<WatchlistDTO> saveWatchlistForUser(@RequestBody WatchlistDTO watchlistDto, Principal principal) {
+
+		Watchlist watchlist = new Watchlist();
+
+		User user = userRepository.findOneByUsername(principal.getName());
+
+		watchlist.setComment(watchlistDto.getComment());
+		watchlist.setMakeItPublic(watchlistDto.isMakeItPublic());
+		watchlist.setUser(user);
+
+		watchlist = watchlistRepository.save(watchlist);
+
+		return new ResponseEntity<WatchlistDTO>(new WatchlistDTO(watchlist), HttpStatus.CREATED);
+	}
 }
