@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.MovieDTO;
 import ftn.uns.diplomski.movierecommendationservice.exception.ResourceNotFoundException;
 import ftn.uns.diplomski.movierecommendationservice.model.Movie;
@@ -22,6 +24,7 @@ import ftn.uns.diplomski.movierecommendationservice.resource.MovieResource;
 import ftn.uns.diplomski.movierecommendationservice.service.MovieRecommender;
 import ftn.uns.diplomski.movierecommendationservice.service.implementation.MovieService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/movies")
 public class MovieController {
@@ -40,6 +43,12 @@ public class MovieController {
 	
 	@Autowired
 	private MovieRecommender movieRecommender; 
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<BasicMovieInfoDTO> getMovieById(@PathVariable("id") Long id) {
+		Movie movie = movieRepository.findById(id).orElseThrow();
+		return new ResponseEntity<BasicMovieInfoDTO>(new BasicMovieInfoDTO(movie), HttpStatus.OK);
+	}
 	
 	@GetMapping("/searchTitle/{title}")
 	public ResponseEntity<MovieDTO> getMovieByTitle(@PathVariable(name="title") String title) {

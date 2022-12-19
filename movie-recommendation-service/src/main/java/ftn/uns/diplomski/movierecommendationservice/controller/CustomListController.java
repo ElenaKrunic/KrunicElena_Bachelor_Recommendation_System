@@ -21,6 +21,7 @@ import ftn.uns.diplomski.movierecommendationservice.repository.CustomListReposit
 import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/customLists")
 public class CustomListController {
