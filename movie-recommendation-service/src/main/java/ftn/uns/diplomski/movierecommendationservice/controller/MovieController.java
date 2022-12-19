@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.MovieDTO;
 import ftn.uns.diplomski.movierecommendationservice.exception.ResourceNotFoundException;
 import ftn.uns.diplomski.movierecommendationservice.model.Movie;
@@ -71,6 +72,12 @@ public class MovieController {
 		
 		String recommendedMovies = movieRecommender.recommendedMovies(userId, userRepository, movieRepository);
 		return ResponseEntity.ok().body(recommendedMovies);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<BasicMovieInfoDTO> getMovieById(@PathVariable("id") Long id) {
+		Movie movie = movieRepository.findById(id).orElseThrow();
+		return new ResponseEntity<BasicMovieInfoDTO>(new BasicMovieInfoDTO(movie), HttpStatus.OK);
 	}
 	
 	private MovieResource getMovieResource(Movie movie) {
