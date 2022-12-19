@@ -9,7 +9,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserMovieRatingRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/movieRates")
 public class UserMovieController {
@@ -46,8 +49,8 @@ public class UserMovieController {
 		return ResponseEntity.ok().body(user.toString());
 	}
 	
-	@PutMapping(value="/rateMovie", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity rateMovies(@RequestParam("userId") Long userId, @Valid @RequestBody List<HashMap> movieRates) throws ResourceNotFoundException{
+	@PutMapping(value="/rateMovie/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity rateMovies(@PathVariable("userId") Long userId, @Valid @RequestBody List<HashMap> movieRates) throws ResourceNotFoundException{
 		
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 		

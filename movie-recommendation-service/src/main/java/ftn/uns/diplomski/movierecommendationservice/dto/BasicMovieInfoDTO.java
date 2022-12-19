@@ -13,8 +13,10 @@ import lombok.Setter;
 public class BasicMovieInfoDTO {
 
 	private String title; 
+	private String genre;
 	
 	public BasicMovieInfoDTO(Movie m) {
 		this.title = m.getTitle();
+		this.genre = m.getGenre();
 	}
 }

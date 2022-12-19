@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +62,18 @@ public class MovieController {
 	public ResponseEntity<MovieDTO> getMovieByImdbId(@PathVariable(name = "id") String id){
 		MovieDTO movie = movieService.getMovieByIdFromApi(id);
 		return new ResponseEntity<MovieDTO>(movie, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/insertMovie")
+	public ResponseEntity<BasicMovieInfoDTO> saveMovie(@RequestBody BasicMovieInfoDTO movieDto) {
+		Movie movie = new Movie(); 
+		
+		movie.setTitle(movieDto.getTitle());
+		movie.setGenre(movieDto.getGenre());
+		
+		movie = movieRepository.save(movie);
+		
+		return new ResponseEntity<BasicMovieInfoDTO>(new BasicMovieInfoDTO(movie), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
