@@ -12,10 +12,12 @@ import lombok.Setter;
 @Setter
 public class BasicMovieInfoDTO {
 
+	private long movieId; 
 	private String title; 
 	private String genre;
 	
 	public BasicMovieInfoDTO(Movie m) {
+		this.movieId = m.getMovieId();
 		this.title = m.getTitle();
 		this.genre = m.getGenre();
 	}

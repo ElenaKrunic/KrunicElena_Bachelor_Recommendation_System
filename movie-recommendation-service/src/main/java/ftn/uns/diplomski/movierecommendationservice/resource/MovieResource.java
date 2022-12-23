@@ -11,6 +11,9 @@ import lombok.Getter;
 @NoArgsConstructor
 public class MovieResource {
 	
+	public MovieResource(String string) {
+		// TODO Auto-generated constructor stub
+	}
 	private long movieId; 
 	private String title; 
 	private String genre; 

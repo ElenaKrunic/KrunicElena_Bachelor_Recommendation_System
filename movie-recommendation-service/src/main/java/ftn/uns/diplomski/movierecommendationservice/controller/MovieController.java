@@ -82,7 +82,7 @@ public class MovieController {
 		movieRepository.findAll().forEach(movie -> movieResources.add(getMovieResource(movie)));
 		return ResponseEntity.ok().body(movieResources);
 	}
-
+	
 	@SuppressWarnings("rawtypes")
 	@GetMapping(value="/recommended" , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity getRecommendedMoviesByUserId(@RequestParam("userId") Long userId) throws ResourceNotFoundException {

@@ -49,9 +49,10 @@ public class UserMovieController {
 		return ResponseEntity.ok().body(user.toString());
 	}
 	
-	@PutMapping(value="/rateMovie/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity rateMovies(@PathVariable("userId") Long userId, @Valid @RequestBody List<HashMap> movieRates) throws ResourceNotFoundException{
+	@PutMapping(value="/rateMovie/{userId}")
+	public ResponseEntity rateMovies(@PathVariable("userId") Long userId, @RequestBody List<HashMap> movieRates) throws ResourceNotFoundException{
 		
+		System.out.println("usloooooooooooooooooooooooooooooooooooooooooooo");
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 		
 		List<UserMovieRating> updatedMovieRates = new ArrayList<>(); 
@@ -59,6 +60,9 @@ public class UserMovieController {
 		for(HashMap map : movieRates) {
 			long movieId = Long.parseLong(map.get("movieId").toString());
 			int rate = Integer.parseInt(map.get("rate").toString());
+			
+			System.out.println("movieId" + movieId);
+			System.out.println("rate" + rate);
 			
 			Movie movie = movieRepository.findById(movieId).orElseThrow(null);
 			
