@@ -15,8 +15,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserMovieRatingKey implements Serializable {
-
+public class UserMovieReviewKey implements Serializable {
+	
 	/**
 	 * 
 	 */
@@ -27,5 +27,5 @@ public class UserMovieRatingKey implements Serializable {
 	
 	@Column(name = "movie_id")
 	private Long movieId; 
-	
+
 }

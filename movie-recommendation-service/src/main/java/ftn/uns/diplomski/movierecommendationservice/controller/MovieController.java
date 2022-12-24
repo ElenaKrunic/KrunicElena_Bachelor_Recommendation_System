@@ -85,7 +85,7 @@ public class MovieController {
 	
 	@SuppressWarnings("rawtypes")
 	@GetMapping(value="/recommended" , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity getRecommendedMoviesByUserId(@RequestParam("userId") Long userId) throws ResourceNotFoundException {
+	public ResponseEntity<String> getRecommendedMoviesByUserId(@RequestParam("userId") Long userId) throws ResourceNotFoundException {
 		
 		if(!userRepository.existsById(userId)) {
 			throw new ResourceNotFoundException("User not found");
@@ -98,7 +98,4 @@ public class MovieController {
 	private MovieResource getMovieResource(Movie movie) {
 		return new MovieResource(movie.getMovieId(),movie.getTitle(), movie.getGenre());
 	}
-	
-	
-	
 }
