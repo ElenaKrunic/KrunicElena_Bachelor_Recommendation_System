@@ -98,20 +98,6 @@ public class WatchlistController {
 		List<Movie> movies = movieRepository.findMoviesByWatchlistsWatchlistId(watchlistId);
 		return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
 	}
-	
-	@PostMapping("/addMovieInWatchlist/{watchlistId}/{movieId}")
-	public ResponseEntity<HttpStatus> addMovieInWatchlist(@PathVariable(value = "watchlistId") Long watchlistId, @PathVariable(value = "movieId") Long movieId) {
-		Watchlist watchlist = watchlistRepository.findById(watchlistId).orElseThrow(null);
-
-		if(movieId != 0L) {
-			Movie _movie = movieRepository.findById(movieId)
-					.orElseThrow(null);
-			watchlist.addMovie(_movie);
-			watchlistRepository.save(watchlist);
-		}
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
 		
 	@DeleteMapping("/deleteMovieFromWatchlist/{watchlistId}/{movieId}")
 	public ResponseEntity<HttpStatus> deleteMovieFromWatchlist(@PathVariable(value="watchlistId") Long watchlistId, @PathVariable(value="movieId") Long movieId) {
@@ -124,11 +110,13 @@ public class WatchlistController {
 	}
 
 	//prosiren kod
+	
 	@GetMapping("/userWatchlist")
 	public ResponseEntity<?> userWatchlist(Principal principal) {
 		try {
 
-			List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal(principal.getName());
+			//List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal(principal.getName());
+			List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal("crveno");
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
 
 		} catch(Exception e) {
@@ -136,6 +124,32 @@ public class WatchlistController {
 		}
 
 		return null;
+	}
+	
+	@PutMapping("/addMovieInWatchlist/{movieId}")
+	public ResponseEntity<?> addMovieInWatchlist(Principal principal, @PathVariable("movieId") Long movieId) {
+		
+		try {
+			//grozno ce biti principal name
+			//Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal("crveno");
+			Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
+			
+			if(watchlist == null) {
+				return null;
+			} else {
+				if(movieId != 0L) {
+					Movie _movie = movieRepository.findById(movieId)
+							.orElseThrow(null);
+					watchlist.addMovie(_movie);
+					watchlistRepository.save(watchlist);
+				}
+			}
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null; 
 	}
 
 	@PostMapping(consumes = "application/json", value = "/createWatchlist")

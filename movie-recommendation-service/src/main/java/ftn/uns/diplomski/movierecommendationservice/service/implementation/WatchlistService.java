@@ -47,4 +47,16 @@ public class WatchlistService implements WatchlistInterface {
 
         return watchlistDtos;
     }
+
+	public Watchlist getOneWatchlistWithPrincipal(String name) throws Exception {
+		User user = userRepository.findOneByUsername(name);
+		
+		if(user == null) {
+			throw new Exception("User does not exist!");
+		}
+		
+		Watchlist watchlist = watchlistRepository.findOneWatchlistByUser(user);
+		
+		return watchlist;
+	}
 }
