@@ -59,4 +59,17 @@ public class WatchlistService implements WatchlistInterface {
 		
 		return watchlist;
 	}
+
+	public Watchlist getWatchlistByUserId(Long userId) throws Exception {
+		User user = userRepository.findById(userId).orElseThrow();
+		
+		if(user == null) {
+			throw new Exception("User does not exist");
+		}
+		
+		Watchlist watchlist = watchlistRepository.findOneWatchlistByUser(user);
+		
+		return watchlist;
+		
+	}
 }

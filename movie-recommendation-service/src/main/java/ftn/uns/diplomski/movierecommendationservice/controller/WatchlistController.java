@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ftn.uns.diplomski.movierecommendationservice.dto.WatchlistDTO;
@@ -101,19 +102,6 @@ public class WatchlistController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 	}
 
-	//prosiren kod
-	//ovo pozivam na frontu da mi se ucitaju svi filmovi ulogovanog korisnika
-	@GetMapping("/principal/movies")
-	public ResponseEntity<List<BasicMovieInfoDTO>> getAllMoviesByUserWatchlist (Principal principal) throws Exception {
-		System.out.println(principal.getName());
-		Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
-		//test
-		//Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal("crveno");
-
-		List<BasicMovieInfoDTO> movies = movieRepository.findMoviesByWatchlists(watchlist);
-		return new ResponseEntity<List<BasicMovieInfoDTO>>(movies, HttpStatus.OK);
-	}
-	
 	@GetMapping("/userWatchlist")
 	public ResponseEntity<?> userWatchlist(Principal principal) {
 		try {
@@ -129,14 +117,20 @@ public class WatchlistController {
 		return null;
 	}
 	
-	@PutMapping("/addMovieInWatchlist/{movieId}")
-	public ResponseEntity<?> addMovieInWatchlist(Principal principal, @PathVariable("movieId") Long movieId) {
+	@GetMapping("/principal/movies")
+	public ResponseEntity<List<BasicMovieInfoDTO>> getAllMoviesByUserWatchlist (Principal principal) throws Exception {
+		System.out.println(">>> ovo je principal u metodi getAllMoviesByUserWatchlist >>>" + principal.getName());
+		Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
+
+		List<BasicMovieInfoDTO> movies = movieRepository.findMoviesByWatchlists(watchlist);
+		return new ResponseEntity<List<BasicMovieInfoDTO>>(movies, HttpStatus.OK);
+	}
+	
+	@PutMapping("/addMovieInWatchlist")
+	public ResponseEntity<?> addMovieInWatchlist(@RequestParam("userId") Long userId, @RequestParam("movieId") Long movieId) {
 		
-		try {
-			
-			Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal("crveno");
-			//Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
-			
+		try {			
+			Watchlist watchlist = watchlistService.getWatchlistByUserId(userId);
 			if(watchlist == null) {
 				return null;
 			} else {
