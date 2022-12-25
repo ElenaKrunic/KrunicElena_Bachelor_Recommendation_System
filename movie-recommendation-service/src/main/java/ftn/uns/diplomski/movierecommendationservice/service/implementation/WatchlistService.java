@@ -1,8 +1,6 @@
 package ftn.uns.diplomski.movierecommendationservice.service.implementation;
 
-import ftn.uns.diplomski.movierecommendationservice.dto.CustomListDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.WatchlistDTO;
-import ftn.uns.diplomski.movierecommendationservice.model.CustomList;
 import ftn.uns.diplomski.movierecommendationservice.model.User;
 import ftn.uns.diplomski.movierecommendationservice.model.Watchlist;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;

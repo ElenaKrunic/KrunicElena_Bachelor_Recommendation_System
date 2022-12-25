@@ -1,22 +1,21 @@
 package ftn.uns.diplomski.movierecommendationservice.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
-import ftn.uns.diplomski.movierecommendationservice.service.CustomListInterface;
 import ftn.uns.diplomski.movierecommendationservice.service.implementation.CustomListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.CustomListDTO;
 import ftn.uns.diplomski.movierecommendationservice.exception.ResourceNotFoundException;
 import ftn.uns.diplomski.movierecommendationservice.model.CustomList;
 import ftn.uns.diplomski.movierecommendationservice.model.Movie;
 import ftn.uns.diplomski.movierecommendationservice.model.User;
+import ftn.uns.diplomski.movierecommendationservice.model.Watchlist;
 import ftn.uns.diplomski.movierecommendationservice.repository.CustomListRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;
@@ -54,11 +53,14 @@ public class CustomListController {
 		List<Movie> movies = movieRepository.findMoviesByCustomListsCustomListId(customListId);
 		return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
 	}
-	  
-	  @PostMapping("addMovieInCustomList/{customListId}/{movieId}")
-		public ResponseEntity<HttpStatus> addMovieInCustomList(@PathVariable(value = "customListId") Long customListId, @PathVariable(value = "movieId") Long movieId) throws ResourceNotFoundException {
-			CustomList customList = customListRepository.findById(customListId).orElseThrow(() -> new ResourceNotFoundException("Not found custom list with id" + customListId));
+	   
+	  @PutMapping("/addMovieInCustomList")
+		public ResponseEntity<HttpStatus> addMovieInCustomList(@RequestParam("customListId") Long customListId, @RequestParam("movieId") Long movieId) throws ResourceNotFoundException {
+			
+		  CustomList customList = customListRepository.findById(customListId).orElseThrow(() -> new ResourceNotFoundException("Not found custom list with id" + customListId));
 
+		  System.out.println(customListId);
+		  System.out.println(movieId);
 			if(movieId != 0L) {
 				Movie _movie = movieRepository.findById(movieId)
 						.orElseThrow(() -> new ResourceNotFoundException("Not found movie with id =  " + movieId));
@@ -78,7 +80,6 @@ public class CustomListController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 
-		//prosiren kod
 
 	@GetMapping("/userCustomList")
 	public ResponseEntity<?> userCustomLists(Principal principal) {
@@ -140,5 +141,4 @@ public class CustomListController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 }

@@ -99,10 +99,12 @@ public class MovieRecommender {
 
 	        Map<Long, Double> output = new TreeMap<>();
 
-	        Iterator entries = sortedNeighbourhoods.entrySet().iterator();
+	        @SuppressWarnings("rawtypes")
+			Iterator entries = sortedNeighbourhoods.entrySet().iterator();
 	        int i = 0;
 	        while (entries.hasNext() && i < NUM_NEIGHBOURHOODS) {
-	            Map.Entry entry = (Map.Entry) entries.next();
+	            @SuppressWarnings("rawtypes")
+				Map.Entry entry = (Map.Entry) entries.next();
 	            if ((double) entry.getValue() > 0) {
 	                output.put((long) entry.getKey(), (double) entry.getValue());
 	                i++;
@@ -111,7 +113,8 @@ public class MovieRecommender {
 	        return output;
 	    }
 	    
-	    private double getAverage(Map<Long, Integer> userRatings) {
+	    @SuppressWarnings("rawtypes")
+		private double getAverage(Map<Long, Integer> userRatings) {
 	        double userAverage = 0;
 	        for (Map.Entry<Long, Integer> longIntegerEntry : userRatings.entrySet()) {
 	            userAverage += (int) ((Map.Entry) longIntegerEntry).getValue();

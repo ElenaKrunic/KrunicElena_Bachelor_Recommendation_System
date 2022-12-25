@@ -19,6 +19,7 @@ public class WatchlistDTO {
 	private Long watchlistId;
 	private boolean makeItPublic; 
 	private String comment;
+	@SuppressWarnings("rawtypes")
 	private Set movies;
 	
 	public WatchlistDTO(Watchlist watchlist) {

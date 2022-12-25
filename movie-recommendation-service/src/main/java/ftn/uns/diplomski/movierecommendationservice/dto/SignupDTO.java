@@ -3,8 +3,6 @@ package ftn.uns.diplomski.movierecommendationservice.dto;
 import java.util.Set;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

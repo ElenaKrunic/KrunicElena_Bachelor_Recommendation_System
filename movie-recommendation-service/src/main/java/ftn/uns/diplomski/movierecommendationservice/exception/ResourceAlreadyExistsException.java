@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  *
  * @author Sefa Oduncuoglu
  */
+@SuppressWarnings("serial")
 @ResponseStatus(value = HttpStatus.OK)
 public class ResourceAlreadyExistsException extends Exception {
 

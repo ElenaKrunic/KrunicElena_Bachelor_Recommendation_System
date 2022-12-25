@@ -4,8 +4,6 @@ import java.security.Principal;
 import java.util.List;
 
 import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
-import ftn.uns.diplomski.movierecommendationservice.dto.CustomListDTO;
-import ftn.uns.diplomski.movierecommendationservice.model.CustomList;
 import ftn.uns.diplomski.movierecommendationservice.service.implementation.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -119,7 +117,6 @@ public class WatchlistController {
 	
 	@GetMapping("/principal/movies")
 	public ResponseEntity<List<BasicMovieInfoDTO>> getAllMoviesByUserWatchlist (Principal principal) throws Exception {
-		System.out.println(">>> ovo je principal u metodi getAllMoviesByUserWatchlist >>>" + principal.getName());
 		Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
 
 		List<BasicMovieInfoDTO> movies = movieRepository.findMoviesByWatchlists(watchlist);

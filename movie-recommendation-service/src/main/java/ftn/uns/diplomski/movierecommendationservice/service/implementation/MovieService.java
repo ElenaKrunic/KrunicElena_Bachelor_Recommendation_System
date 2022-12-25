@@ -7,7 +7,6 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 
 import ftn.uns.diplomski.movierecommendationservice.dto.MovieDTO;
-import ftn.uns.diplomski.movierecommendationservice.model.Movie;
 import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 import ftn.uns.diplomski.movierecommendationservice.service.MovieInteface;
 import ftn.uns.diplomski.movierecommendationservice.utils.OmdbWebServiceClient;
@@ -15,6 +14,7 @@ import ftn.uns.diplomski.movierecommendationservice.utils.OmdbWebServiceClient;
 @Service
 public class MovieService implements MovieInteface{
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private MovieRepository movieRepository; 
 

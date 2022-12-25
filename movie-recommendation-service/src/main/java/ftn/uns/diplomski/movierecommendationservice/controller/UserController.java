@@ -1,12 +1,9 @@
 package ftn.uns.diplomski.movierecommendationservice.controller;
 
-import ftn.uns.diplomski.movierecommendationservice.dto.JwtAuthenticationRequestDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.JwtResponseDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.LoginDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.MessageResponse;
 import ftn.uns.diplomski.movierecommendationservice.dto.SignupDTO;
-import ftn.uns.diplomski.movierecommendationservice.dto.UserDTO;
-import ftn.uns.diplomski.movierecommendationservice.dto.UserTokenStateDTO;
 import ftn.uns.diplomski.movierecommendationservice.exception.ResourceNotFoundException;
 import ftn.uns.diplomski.movierecommendationservice.model.ERole;
 import ftn.uns.diplomski.movierecommendationservice.model.Role;
@@ -19,7 +16,6 @@ import ftn.uns.diplomski.movierecommendationservice.security.services.UserDetail
 import ftn.uns.diplomski.movierecommendationservice.service.implementation.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,9 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;

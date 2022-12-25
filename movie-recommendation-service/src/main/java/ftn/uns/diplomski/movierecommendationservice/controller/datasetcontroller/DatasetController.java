@@ -1,11 +1,6 @@
 package ftn.uns.diplomski.movierecommendationservice.controller.datasetcontroller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 public class DatasetController {
-
-    private static final Logger logger = LoggerFactory.getLogger(DatasetController.class);
 
     private Movies movies; 
     
