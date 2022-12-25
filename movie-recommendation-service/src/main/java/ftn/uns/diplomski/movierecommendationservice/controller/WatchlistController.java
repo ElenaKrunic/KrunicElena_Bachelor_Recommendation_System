@@ -3,12 +3,14 @@ package ftn.uns.diplomski.movierecommendationservice.controller;
 import java.security.Principal;
 import java.util.List;
 
+import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.CustomListDTO;
 import ftn.uns.diplomski.movierecommendationservice.model.CustomList;
 import ftn.uns.diplomski.movierecommendationservice.service.implementation.WatchlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +28,7 @@ import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.WatchlistRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/watchlists")
 public class WatchlistController {
@@ -87,18 +90,7 @@ public class WatchlistController {
 		
 		return new ResponseEntity<List<Watchlist>>(watchlists, HttpStatus.OK);
 	}
-	
-	@GetMapping("/{watchlistId}/movies")
-	public ResponseEntity<List<Movie>> getAllMoviesByWatchlistId (@PathVariable(value = "watchlistId") Long watchlistId) {
-
-		if(!watchlistRepository.existsById(watchlistId)) {
-			return null;
-		}
-
-		List<Movie> movies = movieRepository.findMoviesByWatchlistsWatchlistId(watchlistId);
-		return new ResponseEntity<List<Movie>>(movies, HttpStatus.OK);
-	}
-		
+			
 	@DeleteMapping("/deleteMovieFromWatchlist/{watchlistId}/{movieId}")
 	public ResponseEntity<HttpStatus> deleteMovieFromWatchlist(@PathVariable(value="watchlistId") Long watchlistId, @PathVariable(value="movieId") Long movieId) {
 
@@ -110,6 +102,17 @@ public class WatchlistController {
 	}
 
 	//prosiren kod
+	//ovo pozivam na frontu da mi se ucitaju svi filmovi ulogovanog korisnika
+	@GetMapping("/principal/movies")
+	public ResponseEntity<List<BasicMovieInfoDTO>> getAllMoviesByUserWatchlist (Principal principal) throws Exception {
+		System.out.println(principal.getName());
+		Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
+		//test
+		//Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal("crveno");
+
+		List<BasicMovieInfoDTO> movies = movieRepository.findMoviesByWatchlists(watchlist);
+		return new ResponseEntity<List<BasicMovieInfoDTO>>(movies, HttpStatus.OK);
+	}
 	
 	@GetMapping("/userWatchlist")
 	public ResponseEntity<?> userWatchlist(Principal principal) {
@@ -130,9 +133,9 @@ public class WatchlistController {
 	public ResponseEntity<?> addMovieInWatchlist(Principal principal, @PathVariable("movieId") Long movieId) {
 		
 		try {
-			//grozno ce biti principal name
-			//Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal("crveno");
-			Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
+			
+			Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal("crveno");
+			//Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
 			
 			if(watchlist == null) {
 				return null;
