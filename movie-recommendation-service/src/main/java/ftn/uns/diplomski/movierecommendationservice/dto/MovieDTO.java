@@ -14,7 +14,7 @@ public class MovieDTO {
 
 	private String Title;
 	private String Plot;
-	private int Year; 
+	private Integer Year; 
 	private String Runtime; 
 	private String Genre; 
 	private String Director; 

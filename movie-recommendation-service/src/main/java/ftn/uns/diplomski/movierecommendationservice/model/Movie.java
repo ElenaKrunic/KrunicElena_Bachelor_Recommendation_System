@@ -30,17 +30,17 @@ public class Movie {
 	@Column(name = "movie_id", unique = true, nullable = false)
 	private long movieId; 
 	
-	@Column(name = "title", nullable = false)
+	@Column(name = "title")
 	private String title;
 	
-	@Column(name="genre", nullable = false)
+	@Column(name="genre")
 	private String genre;
 	
 	@Column(name="plot")
 	private String plot; 
 	
 	@Column(name="year")
-	private int year;
+	private Integer year;
 	
 	@Column(name="runtime")
 	private String runtime;
@@ -101,7 +101,7 @@ public class Movie {
     
     public Movie(String title, String genre, String plot, String runtime,
     		String director, String writer, String actors, String language, String country,
-    		String awards, String poster, int year) { 
+    		String awards, String poster, Integer year) { 
     	this.title = title; 
     	this.genre = genre; 
     	this.plot = plot;

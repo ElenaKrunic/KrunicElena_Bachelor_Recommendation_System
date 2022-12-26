@@ -2,6 +2,11 @@ package ftn.uns.diplomski.movierecommendationservice.resource;
 
 import java.util.Date;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserResource {
 
     private long userId;
@@ -15,21 +20,34 @@ public class UserResource {
     private Date createdAt;
 
     private Date updatedAt;
+    
+    private String username; 
 
     public UserResource() {
 
     }
 
-    public UserResource(long userId, String firstName, String lastName, String email, Date createdAt, Date updatedAt) {
+    public UserResource(long userId, String firstName, String lastName, String email, Date createdAt, Date updatedAt, String username) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.username = username; 
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public long getUserId() {
+	public UserResource(long userId, String firstName, String lastName, String email, String username, Date createdAt, Date updatedAt) {
+		this.userId = userId; 
+		this.firstName = firstName; 
+		this.lastName = lastName; 
+		this.email = email; 
+		this.username = username; 
+		this.createdAt = createdAt; 
+		this.updatedAt = updatedAt; 
+	}
+
+	public long getUserId() {
         return userId;
     }
 

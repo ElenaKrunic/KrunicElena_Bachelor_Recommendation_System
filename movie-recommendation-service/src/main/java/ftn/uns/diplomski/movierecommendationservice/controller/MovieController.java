@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,7 @@ import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.MovieDTO;
 import ftn.uns.diplomski.movierecommendationservice.exception.ResourceNotFoundException;
 import ftn.uns.diplomski.movierecommendationservice.model.Movie;
+import ftn.uns.diplomski.movierecommendationservice.model.User;
 import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;
 import ftn.uns.diplomski.movierecommendationservice.resource.MovieResource;
@@ -76,9 +79,35 @@ public class MovieController {
 		return new ResponseEntity<BasicMovieInfoDTO>(new BasicMovieInfoDTO(movie), HttpStatus.CREATED);
 	}
 	
-	@PostMapping(value = "/insertMovie")
-	public ResponseEntity<MovieDTO> insertMovie(@RequestBody Movie movieDto) {
+	@PostMapping(value = "/insertMovie/{userId}")
+	public ResponseEntity<MovieDTO> insertMovie(@RequestBody Movie movieDto, @PathVariable("userId") Long userId) {
+		
+		User user = userRepository.findById(userId).orElseThrow();
 		Movie movie = new Movie();
+		
+		movie.setActors(movieDto.getActors());
+		movie.setAwards(movieDto.getAwards());
+		movie.setCountry(movieDto.getCountry());
+		movie.setDirector(movieDto.getDirector());
+		movie.setGenre(movieDto.getGenre());
+		movie.setLanguage(movieDto.getLanguage());
+		movie.setPlot(movieDto.getPlot());
+		movie.setPoster(movieDto.getPoster());
+		movie.setRuntime(movieDto.getRuntime());
+		movie.setTitle(movieDto.getTitle());
+		movie.setWriter(movieDto.getWriter());
+		movie.setYear(movieDto.getYear());
+		movie.setUser(user);
+		
+		movie = movieRepository.save(movie);
+		
+		return new ResponseEntity<MovieDTO>(new MovieDTO(movie), HttpStatus.CREATED);
+	}
+	
+	@PutMapping(value="/updateMovie/{movieId}")
+	public ResponseEntity<MovieDTO> updateMovie(@PathVariable("movieId") Long movieId, @RequestBody Movie movieDto) {
+		
+		Movie movie = movieRepository.findById(movieId).orElseThrow(); 
 		
 		movie.setActors(movieDto.getActors());
 		movie.setAwards(movieDto.getAwards());
@@ -95,7 +124,13 @@ public class MovieController {
 		
 		movie = movieRepository.save(movie);
 		
-		return new ResponseEntity<MovieDTO>(new MovieDTO(movie), HttpStatus.CREATED);
+		return new ResponseEntity<MovieDTO>(new MovieDTO(movie), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/deleteMovie/{movieId}")
+	public ResponseEntity<HttpStatus> deleteMovie(@PathVariable("movieId") Long movieId) {
+		movieRepository.deleteById(movieId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
