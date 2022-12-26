@@ -26,6 +26,7 @@ import lombok.Setter;
 public class Movie {
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "movie_id", unique = true, nullable = false)
 	private long movieId; 
 	
@@ -34,6 +35,36 @@ public class Movie {
 	
 	@Column(name="genre", nullable = false)
 	private String genre;
+	
+	@Column(name="plot")
+	private String plot; 
+	
+	@Column(name="year")
+	private int year;
+	
+	@Column(name="runtime")
+	private String runtime;
+	
+	@Column(name="director")
+	private String director;
+	
+	@Column(name="writer")
+	private String writer;
+	
+	@Column(name="actors")
+	private String actors;
+	
+	@Column(name="language")
+	private String language;
+	
+	@Column(name="country")
+	private String country;
+	
+	@Column(name="awards")
+	private String awards;
+	
+	@Column(name="poster")
+	private String poster; 
 	
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserMovieRating> userMovieRatings; 
@@ -68,8 +99,21 @@ public class Movie {
     	this.genre = genre; 
     }
     
-    public Movie(String title, String genre) { 
+    public Movie(String title, String genre, String plot, String runtime,
+    		String director, String writer, String actors, String language, String country,
+    		String awards, String poster, int year) { 
     	this.title = title; 
     	this.genre = genre; 
+    	this.plot = plot;
+    	this.year = year;
+    	this.runtime = runtime;
+    	this.director = director;
+    	this.writer = writer;
+    	this.actors = actors;
+    	this.language = language;
+    	this.country = country;
+    	this.awards = awards;
+    	this.poster = poster;
+    	
     }
 }

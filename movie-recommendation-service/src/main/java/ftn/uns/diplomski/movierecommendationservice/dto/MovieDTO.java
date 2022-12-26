@@ -1,5 +1,6 @@
 package ftn.uns.diplomski.movierecommendationservice.dto;
 
+import ftn.uns.diplomski.movierecommendationservice.model.Movie;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,20 @@ public class MovieDTO {
 	private String Country; 
 	private String Awards; 
 	private String Poster; 
+	
+	public MovieDTO(Movie movie) {
+		this.Title = movie.getTitle();
+		this.Plot = movie.getPlot();
+		this.Year = movie.getYear();
+		this.Runtime = movie.getRuntime();
+		this.Genre = movie.getGenre();
+		this.Director = movie.getDirector();
+		this.Writer = movie.getWriter();
+		this.Actors = movie.getActors();
+		this.Language = movie.getLanguage();
+		this.Country = movie.getCountry();
+		this.Awards = movie.getAwards();
+		this.Poster = movie.getPoster();
+	}
 	
 }

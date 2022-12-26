@@ -64,8 +64,8 @@ public class MovieController {
 		return new ResponseEntity<MovieDTO>(movie, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/insertMovie")
-	public ResponseEntity<BasicMovieInfoDTO> saveMovie(@RequestBody BasicMovieInfoDTO movieDto) {
+	@PostMapping(value = "/inserBasicMovieInfo")
+	public ResponseEntity<BasicMovieInfoDTO> insertBasicMovieInfoMovie(@RequestBody BasicMovieInfoDTO movieDto) {
 		Movie movie = new Movie(); 
 		
 		movie.setTitle(movieDto.getTitle());
@@ -74,6 +74,28 @@ public class MovieController {
 		movie = movieRepository.save(movie);
 		
 		return new ResponseEntity<BasicMovieInfoDTO>(new BasicMovieInfoDTO(movie), HttpStatus.CREATED);
+	}
+	
+	@PostMapping(value = "/insertMovie")
+	public ResponseEntity<MovieDTO> insertMovie(@RequestBody Movie movieDto) {
+		Movie movie = new Movie();
+		
+		movie.setActors(movieDto.getActors());
+		movie.setAwards(movieDto.getAwards());
+		movie.setCountry(movieDto.getCountry());
+		movie.setDirector(movieDto.getDirector());
+		movie.setGenre(movieDto.getGenre());
+		movie.setLanguage(movieDto.getLanguage());
+		movie.setPlot(movieDto.getPlot());
+		movie.setPoster(movieDto.getPoster());
+		movie.setRuntime(movieDto.getRuntime());
+		movie.setTitle(movieDto.getTitle());
+		movie.setWriter(movieDto.getWriter());
+		movie.setYear(movieDto.getYear());
+		
+		movie = movieRepository.save(movie);
+		
+		return new ResponseEntity<MovieDTO>(new MovieDTO(movie), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
