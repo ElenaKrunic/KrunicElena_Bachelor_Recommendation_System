@@ -50,6 +50,24 @@ public class WatchlistController {
 		return new ResponseEntity<>(_watchlist, HttpStatus.OK);
 	}
 	
+	@GetMapping("getWatchlistByUser/{userId}")
+	public ResponseEntity<Watchlist> getWatchlistByUserId(@PathVariable("userId") Long userId) {
+		
+		User user = userRepository.getOne(userId);
+		
+		if(user == null) {
+			return null;  
+		}
+		
+		Watchlist _watchlist = watchlistRepository.findWatchlistByUser(user);
+		
+		if(_watchlist == null) {
+			return null;
+		}
+		
+		return new ResponseEntity<>(_watchlist, HttpStatus.OK);
+	}
+	
 	@PostMapping(consumes="application/json", value="/createWatchlist/{userId}")
 	public ResponseEntity<WatchlistDTO> saveWatchlist(@RequestBody WatchlistDTO dto, @PathVariable("userId") Long userId) {
 		Watchlist watchlist = new Watchlist();
@@ -100,21 +118,6 @@ public class WatchlistController {
 		return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 	}
 
-	@GetMapping("/userWatchlist")
-	public ResponseEntity<?> userWatchlist(Principal principal) {
-		try {
-
-			List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal(principal.getName());
-			//List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal("crveno");
-			return new ResponseEntity<>(dtos, HttpStatus.OK);
-
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-	
 	@GetMapping("/principal/movies")
 	public ResponseEntity<List<BasicMovieInfoDTO>> getAllMoviesByUserWatchlist (Principal principal) throws Exception {
 		Watchlist watchlist = watchlistService.getOneWatchlistWithPrincipal(principal.getName());
@@ -161,4 +164,19 @@ public class WatchlistController {
 
 		return new ResponseEntity<WatchlistDTO>(new WatchlistDTO(watchlist), HttpStatus.CREATED);
 	}
+	
+	@GetMapping("/userWatchlist")
+	public ResponseEntity<?> userWatchlist(Principal principal) {
+		try {
+			System.out.println(principal.getName());
+			List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal(principal.getName());
+			return new ResponseEntity<>(dtos, HttpStatus.OK);
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	
 }
