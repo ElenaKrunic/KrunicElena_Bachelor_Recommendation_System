@@ -134,13 +134,6 @@ public class UserController {
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 	
-
-     
-    /**
-     * Gets users.
-     *
-     * @return the all users
-     */
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> getAllUsers() {

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
 import ftn.uns.diplomski.movierecommendationservice.model.Movie;
+import ftn.uns.diplomski.movierecommendationservice.model.User;
 import ftn.uns.diplomski.movierecommendationservice.model.Watchlist;
 
 @Repository
@@ -17,5 +18,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     List<Movie> findMoviesByCustomListsCustomListId(Long customlistId);
 
 	List<BasicMovieInfoDTO> findMoviesByWatchlists(Watchlist watchlist);
+
+	List<Movie> findByUser(User user);
 
 }

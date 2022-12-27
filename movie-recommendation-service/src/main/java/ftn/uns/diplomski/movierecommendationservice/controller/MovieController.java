@@ -1,5 +1,6 @@
 package ftn.uns.diplomski.movierecommendationservice.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,6 +126,18 @@ public class MovieController {
 		movie = movieRepository.save(movie);
 		
 		return new ResponseEntity<MovieDTO>(new MovieDTO(movie), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/getMyMovies")
+	public ResponseEntity<?> userMovies(Principal principal) {
+		try {
+			List<MovieDTO> dtos = movieService.getMoviesWithPrincipal(principal.getName());
+			return new ResponseEntity<>(dtos, HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	@DeleteMapping("/deleteMovie/{movieId}")

@@ -104,8 +104,8 @@ public class WatchlistController {
 	public ResponseEntity<?> userWatchlist(Principal principal) {
 		try {
 
-			//List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal(principal.getName());
-			List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal("crveno");
+			List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal(principal.getName());
+			//List<WatchlistDTO> dtos = watchlistService.getWatchlistWithPrincipal("crveno");
 			return new ResponseEntity<>(dtos, HttpStatus.OK);
 
 		} catch(Exception e) {
