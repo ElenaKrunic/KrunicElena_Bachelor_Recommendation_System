@@ -11,7 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieDTO {
-
+	
+	private long movieId;
 	private String Title;
 	private String Plot;
 	private Integer Year; 
@@ -26,6 +27,7 @@ public class MovieDTO {
 	private String Poster; 
 	
 	public MovieDTO(Movie movie) {
+		this.movieId = movie.getMovieId();
 		this.Title = movie.getTitle();
 		this.Plot = movie.getPlot();
 		this.Year = movie.getYear();

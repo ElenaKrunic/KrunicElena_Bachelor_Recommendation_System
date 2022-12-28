@@ -56,6 +56,24 @@ public class MovieController {
 		return new ResponseEntity<BasicMovieInfoDTO>(new BasicMovieInfoDTO(movie), HttpStatus.OK);
 	}
 	
+	@GetMapping("/fullMovie/{id}")
+	public ResponseEntity<MovieDTO> getFullMovieById(@PathVariable("id") Long id) {
+		Movie movie = movieRepository.findById(id).orElseThrow();
+		return new ResponseEntity<MovieDTO>(new MovieDTO(movie), HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/getMyMovies")
+	public ResponseEntity<?> userMovies(Principal principal) {
+		try {
+			List<MovieDTO> dtos = movieService.getMoviesWithPrincipal("crveno");		
+			return new ResponseEntity<>(dtos, HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	@GetMapping("/searchTitle/{title}")
 	public ResponseEntity<MovieDTO> getMovieByTitle(@PathVariable(name="title") String title) {
 		MovieDTO movie = movieService.getMovieByTitleFromApi(title);
@@ -126,18 +144,6 @@ public class MovieController {
 		movie = movieRepository.save(movie);
 		
 		return new ResponseEntity<MovieDTO>(new MovieDTO(movie), HttpStatus.OK);
-	}
-	
-	@GetMapping(value="/getMyMovies")
-	public ResponseEntity<?> userMovies(Principal principal) {
-		try {
-			List<MovieDTO> dtos = movieService.getMoviesWithPrincipal(principal.getName());
-			return new ResponseEntity<>(dtos, HttpStatus.OK);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 	
 	@DeleteMapping("/deleteMovie/{movieId}")

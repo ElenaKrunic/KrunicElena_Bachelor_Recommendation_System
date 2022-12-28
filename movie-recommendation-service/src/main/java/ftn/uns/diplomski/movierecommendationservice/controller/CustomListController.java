@@ -9,13 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ftn.uns.diplomski.movierecommendationservice.dto.BasicMovieInfoDTO;
 import ftn.uns.diplomski.movierecommendationservice.dto.CustomListDTO;
 import ftn.uns.diplomski.movierecommendationservice.exception.ResourceNotFoundException;
 import ftn.uns.diplomski.movierecommendationservice.model.CustomList;
 import ftn.uns.diplomski.movierecommendationservice.model.Movie;
 import ftn.uns.diplomski.movierecommendationservice.model.User;
-import ftn.uns.diplomski.movierecommendationservice.model.Watchlist;
 import ftn.uns.diplomski.movierecommendationservice.repository.CustomListRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.MovieRepository;
 import ftn.uns.diplomski.movierecommendationservice.repository.UserRepository;

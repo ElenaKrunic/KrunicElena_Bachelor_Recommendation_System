@@ -69,6 +69,7 @@ public class MovieService implements MovieInteface{
 		for(Movie movie : movies) {
 			MovieDTO movieDto = new MovieDTO();
 			
+			movieDto.setMovieId(movie.getMovieId());
 			movieDto.setActors(movie.getActors());
 			movieDto.setAwards(movie.getAwards());
 			movieDto.setCountry(movie.getCountry());
