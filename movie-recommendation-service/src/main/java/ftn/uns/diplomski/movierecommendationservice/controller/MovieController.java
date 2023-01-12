@@ -2,7 +2,13 @@ package ftn.uns.diplomski.movierecommendationservice.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +42,7 @@ import ftn.uns.diplomski.movierecommendationservice.service.implementation.Movie
 public class MovieController {
 
 	private final MovieRepository movieRepository;
-	
+	 
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -49,6 +55,46 @@ public class MovieController {
 	
 	@Autowired
 	private MovieRecommender movieRecommender; 
+	
+	@GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getAllMovies() {
+		List<MovieResource> movieResources = new ArrayList<>();
+		movieRepository.findAll().forEach(movie -> movieResources.add(getMovieResource(movie)));
+		return ResponseEntity.ok().body(movieResources);
+	}
+	
+	@GetMapping("/paginate/movies")
+	public ResponseEntity<Map<String, Object>> getPaginatedMovies(
+			@RequestParam(required = false) String title, 
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "3") int size) {
+		
+		try {
+			List<Movie> movies = new ArrayList<Movie>();
+			Pageable paging = PageRequest.of(page, size);
+			
+			Page<Movie> pageMovies; 
+			
+			if(title == null)
+				pageMovies = movieRepository.findAll(paging);
+			else 
+				pageMovies = movieRepository.findByTitleContaining(title, paging);
+			
+			movies = pageMovies.getContent();
+			
+			Map<String, Object> response = new HashMap<>();
+			response.put("movies", movies); 
+			response.put("currentPage", pageMovies.getNumber());
+			response.put("totalItems", pageMovies.getTotalElements());
+			response.put("totalPages", pageMovies.getTotalPages());
+			
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+
+		}
+	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<BasicMovieInfoDTO> getMovieById(@PathVariable("id") Long id) {
@@ -150,13 +196,6 @@ public class MovieController {
 	public ResponseEntity<HttpStatus> deleteMovie(@PathVariable("movieId") Long movieId) {
 		movieRepository.deleteById(movieId);
 		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	@GetMapping(value="/all", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> getAllMovies() {
-		List<MovieResource> movieResources = new ArrayList<>();
-		movieRepository.findAll().forEach(movie -> movieResources.add(getMovieResource(movie)));
-		return ResponseEntity.ok().body(movieResources);
 	}
 	
 	@GetMapping(value="/recommended" , produces = MediaType.APPLICATION_JSON_VALUE)

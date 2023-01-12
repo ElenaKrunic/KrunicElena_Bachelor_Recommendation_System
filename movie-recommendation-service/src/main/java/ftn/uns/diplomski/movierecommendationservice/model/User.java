@@ -76,6 +76,7 @@ public class User {
 	            @JoinColumn(name="role_id")
 	    }
 	    )
+	 @JsonIgnore
 	 private List<Role> roles;
 
     public User() {

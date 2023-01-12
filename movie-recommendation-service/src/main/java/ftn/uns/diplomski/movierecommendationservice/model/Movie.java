@@ -66,6 +66,7 @@ public class Movie {
 	@Column(name="poster")
 	private String poster; 
 	
+	@JsonIgnore
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserMovieRating> userMovieRatings; 
     
